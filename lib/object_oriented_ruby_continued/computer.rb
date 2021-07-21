@@ -25,6 +25,10 @@ class Computer
     @model_year = attributes[:model_year]
   end
 
+  def save #
+    @@all << self
+  end
+
   def sleep
     @asleep = true
   end
@@ -45,10 +49,6 @@ class Computer
       model_year: @model_year,
       last_backup_time: @last_backed_up_at.strftime("%m-%e-%y %H:%M")
     }
-  end
-
-  def save #
-    @@all << self
   end
 end
 
