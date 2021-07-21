@@ -1,29 +1,55 @@
-# Intro to Object Oriented Ruby
-## 1st Segment - Review of OO basics
-
-Review of classes vs instances
+# Object Oriented Ruby Continued
+## 1st Segment - Review of Object Instantiation
 
 Throw out questions:
 
 ```rb
-class Computer
+class Dog
 end
 
-computer = Computer.new
+lennon = Dog.new("Lennon Snow", "11 months", "Pomeranian")
+```
+### What will happen if we try to run the code above?
+
+...
+### What do we need to do or change to get this code to work?
+
+...
+
+Say we want to be able to do:
+
+```rb
+lennon.name #=> "Lennon Snow"
+```
+and
+```rb
+lennon.age #=> "11 months"
+```
+and
+```rb
+lennon.breed #=> "Pomeranian
 ```
 
-Which is a class, which is an instance?
+### What do we need to add/change in the class to support this?
 
-How is this distinction meaningful/helpful in the real world?
+...
+
+Finally, let's say we want to be able to create a new Dog like this:
+
+```rb
+Dog.new(name: "Lennon Snow", age: "11 months", breed: "Pomeranian")
+```
+
+How would the class have to change to support this?
 
 ## Activity 1
 
-Build out a Computer class. A computer has a brand, screen size, model name, model year. Then, create 2 computers. You can run the tests using the `rspec` command. (15 minutes in breakouts)
+Rework the computer class from yesterday to utilize mass assignment upon initialization. Refactor the code to take advantage of the attribute macros you learned about in labs so we can cut down on the code inside of the class. Run the specs using the `rspec` command to track your progress. (15 minutes in breakouts)
 
 When we return, be prepared to share your solution with the group.
 Confirm:
 - Created Instances
-- called setter methods to assign attributes
+- reworked first_computer and second_computer methods to accept a hash of attributes on instantiation.
 
 ### What Errors Did you hit?
 
@@ -31,69 +57,79 @@ Confirm:
 
 ## Discussion Questions
 
-### Why is OO design as popular as it is? 
+What does the initialize method do?
 
-#### 2 Situations Where Object Oriented Design is well suited
->I want to have total control of what my objects look like by updating my class.
+When does the initialize method get called?
 
-If I'm building an accounting program where I have very detailed data requirements for:
-- customers
-- invoices 
-- employees 
-- products 
-- inventory 
-
-Object Oriented design would help me clearly define the responsibilities of the different objects in my program and how they are related to other objects in the program. 
-
-### What's another type of application that might lend itself well to an object oriented design? 
-
-#### 2 situations where object oriented design presents obstacles
->Because I have total control, I don't have the flexibility to change my object's attributes things without changing my class.
-
-If I were building a social media application, being able to iterate quickly and experiment with new features without having to make a more significant commitment to a change is a benefit. If we're in a situation where we're interacting with data from multiple external sources and we don't have control over the attributes present, an object oriented approach.
+When do we need an initialize method and when can we do without it?
 
 
-Take 5 minute break after discussion
+**Take 5 minute break after discussion**
 
-## 2nd Segment - Understanding why solution works and Adding Instance Methods
+## 2nd Segment - Keeping track of the Computers we create
 
-Discussion of solution to part 1
-- What is an instance method?
-  - Which ones are setter methods? Why?
-  - What ones are getter methods? Why?
-- What makes an instance variable different from a local variable?
-- What's the difference between an instance method and an instance variable?
-- How you call an instance method vs regular method?
-- Spam pry to identify the value of `self`. How is it related here?
+### Group Discussion in Breakouts - Pick a Scribe and have them [fill in the group's answers here](https://hackmd.io/@dlm/phase3-lecture-3-classes-and-instances-discussion-7-21-21)
+
+### What if we wanted to keep track of all of the computers that we create? Where would we store them and why?
+
+...
+### What's the difference between a class variable and an instance variable?
+
+...
+
+### What's the difference between a class method and an instance method? (think both about how they're defined and how they're called) 
+
+...
+
+### What does `self` refer to within a class method?
+
+...
+### What does `self` refer to within an instance method?
+
+...
+### Can we access class variables from instance methods?
+
+...
+
+### Can we access instance variables from class methods?
+
+...
 
 ### Setting up Activity 
 
-Let's build these instance methods together:
+Let's say we add a class variable called `@@all` to the computer class so that we can store an array of the computers we create. After we've done that, we can set up a method called `save` that will store a computer inside of the that array.
 
-- `Computer#asleep` 
-- `Computer#sleep`
-- `Computer#wake_up`
-- `Computer#back_up`
-- `Computer#last_backed_up_at` 
+What kind of method should `save` be? 
 
-## Activity 2 - build 
+What will we be calling `save` on, an instance or the class?
 
-In breakout rooms, build an `#about_this_computer` method that returns all the information about the computer as a hash containing the computer's:
+let's code the `save` method together and then breakout again to add some additional functionality. 
 
-- `brand` (string)
-- `screen size` (float)
-- `model name` (string)
-- `model year` (integer)
-- `last backup time` (datetime as string - refer to test code for formatting)
+```rb
+def save
+  # insert code here
+end
+```
 
-## Segment 3 - Discussion of Object Oriented paradigm
+## Activity 2 - build an all method that returns an array of all saved computers
 
-Object Oriented Paradigm sits very well with Relational databases like PostgresQL. Full Stack JS applications can pair well with document based databases like MongoDB. 
+Now that we've got a save method built out that will store computer instances within a class variable called `@@all`, your tasks will be to:
+- add the `#save` method that will store computer instances in `@@all` (if you haven't already)
+- add a method called `.all` that will return all of those computers.
+- add a method called `.create` that will:
+  - accept a hash of attributes (just like initialize)
+  - use that hash to create a new computer
+  - save the computer to `@@all`
+  - return the computer 
+- add a method called `.backed_up` that will return an array of all computers that have been backed up.
 
-## Activity 3 - Group Discussion
 
-What are the benefits of designing our computer class the way that we did?
+### Final Discussion questions
 
-- background of what we would be able to do
+When did you use the `self` keyword?
 
-Let's say we've already created 50 computers. if we decide that we need to start keeping track of whether computers are desktops or laptops, what problem would we have to solve?
+What code did you write that didn't use `self` but could have used `self` (to call a method accessible in the same scope)?
+
+How do you determine what `self` will refer to within a method?
+
+What are some examples of metaprogramming that we've used in our code today?

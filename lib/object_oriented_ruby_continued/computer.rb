@@ -1,38 +1,28 @@
 class Computer
-  def brand
-    @brand
+  attr_accessor :brand, :screen_size, :model_name, :model_year
+  attr_reader :last_backed_up_at, :asleep
+
+  @@all = []
+
+  def self.all 
+    @@all
   end
 
-  def brand=(brand)
-    @brand = brand
+  def self.create(attributes)
+    computer = self.new(attributes)
+    computer.save
+    computer
   end
 
-  def screen_size
-    @screen_size
-  end
-  
-  def screen_size=(screen_size)
-    @screen_size = screen_size
+  def self.backed_up
+    self.all.filter{|computer| computer.last_backed_up_at }
   end
 
-  def model_name
-    @model_name
-  end
-
-  def model_name=(model_name)
-    @model_name = model_name
-  end
-
-  def model_year
-    @model_year
-  end
-
-  def model_year=(model_year)
-    @model_year = model_year
-  end
-
-  def asleep
-    @asleep
+  def initialize(attributes)
+    @brand = attributes[:brand]
+    @screen_size = attributes[:screen_size]
+    @model_name = attributes[:model_name]
+    @model_year = attributes[:model_year]
   end
 
   def sleep
@@ -47,10 +37,6 @@ class Computer
     @last_backed_up_at = DateTime.now
   end
 
-  def last_backed_up_at
-    @last_backed_up_at
-  end
-
   def about_this_computer
     {
       brand: @brand,
@@ -60,4 +46,28 @@ class Computer
       last_backup_time: @last_backed_up_at.strftime("%m-%e-%y %H:%M")
     }
   end
+
+  def save #
+    @@all << self
+  end
+end
+
+# create and return the first computer within this method
+def first_computer
+  Computer.new(
+    brand: "Apple",
+    screen_size: 15.0,
+    model_name: "Macbook Pro",
+    model_year: 2012
+  )
+end
+
+# create and return the second computer within this method
+def second_computer
+  computer = Computer.new(
+    brand: "Apple",
+    screen_size: 13.0,
+    model_name: "Macbook Air",
+    model_year: 2015
+  )
 end
